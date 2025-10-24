@@ -4,27 +4,29 @@
   <meta charset="UTF-8">
   <title>Fogo Cartoon</title>
   <style>
-  body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: transparent;
-  }
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: transparent;
+    }
 
-  #fogo {
-    position: absolute;
-    top: -10px;
-    left: 0;
-    width: 50px;
-    height: 50px;
-    transform: none;
-
-    /* efeito de brilho neon */
-    filter: drop-shadow(0 0 10px #a64ff0)
-            drop-shadow(0 0 20px #a64ff0)
-            drop-shadow(0 0 30px #a64ff0);
-  }
-</style>
+    #fogo {
+      position: absolute;
+      top: -10px;
+      left: 0;
+      width: 50px;
+      height: 50px;
+      transform: none;
+      
+      /* efeito de brilho inicial */
+      filter: drop-shadow(0 0 10px #A64FF0)
+              drop-shadow(0 0 20px #A64FF0)
+              drop-shadow(0 0 30px #A64FF0)
+              hue-rotate(270deg)
+              brightness(1.2);
+    }
+  </style>
 </head>
 <body>
   <div id="fogo"></div>
@@ -32,13 +34,32 @@
   <!-- Biblioteca Lottie -->
   <script src="https://unpkg.com/lottie-web@5.10.0/build/player/lottie.min.js"></script>
   <script>
+    // Carrega a animação
     const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'fire.json' // o arquivo JSON que você baixou
+      path: 'fire.json' // seu arquivo JSON
     });
+
+    // Função para mudar a cor do fogo
+    function setFogoColor(color, hue=0) {
+      const fogo = document.getElementById('fogo');
+      fogo.style.filter = `
+        drop-shadow(0 0 10px ${color})
+        drop-shadow(0 0 20px ${color})
+        drop-shadow(0 0 30px ${color})
+        hue-rotate(${hue}deg)
+        brightness(1.2)
+      `;
+    }
+
+    // Exemplo: muda a cor do fogo para roxo neon
+    setFogoColor('#A64FF0', 270);
+
+    // Exemplo adicional: você pode trocar a cor a qualquer momento
+    // setTimeout(() => setFogoColor('#FF0000', 0), 3000); // vermelho depois de 3s
   </script>
 </body>
 </html>
