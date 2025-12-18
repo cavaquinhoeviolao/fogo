@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Fogo Cartoon</title>
+
   <style>
     body {
       margin: 0;
@@ -18,7 +19,7 @@
       width: 50px;
       height: 50px;
       transform: none;
-      will-change: filter;
+      will-change: filter, box-shadow;
     }
   </style>
 </head>
@@ -30,9 +31,10 @@
   <script src="https://unpkg.com/lottie-web@5.10.0/build/player/lottie.min.js"></script>
 
   <script>
-    // Detecta iOS / Safari
+    // Detecta iOS (Safari)
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
+    // Carrega a animação
     const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
       renderer: 'svg',
@@ -41,37 +43,40 @@
       path: 'fire.json'
     });
 
-    function setFogoColor(color, hue = 0) {
+    // Função DEFINITIVA para cor do fogo (igual em todos os browsers)
+    function setFogoColor(color) {
       const fogo = document.getElementById('fogo');
 
       if (isIOS) {
-        // 🔹 Brilho compatível com Safari/iOS
-        fogo.style.filter = `
-          brightness(1.4)
-          hue-rotate(${hue}deg)
-        `;
+        // Safari / iOS
+        fogo.style.filter = 'brightness(1.4)';
         fogo.style.boxShadow = `
-          0 0 15px ${color},
-          0 0 30px ${color}
+          0 0 12px ${color},
+          0 0 24px ${color},
+          0 0 36px ${color}
         `;
         fogo.style.mixBlendMode = 'screen';
 
       } else {
-        // 🔹 Brilho completo (Chrome, Firefox, Edge)
+        // Chrome, Firefox, Edge
         fogo.style.boxShadow = 'none';
         fogo.style.mixBlendMode = 'normal';
         fogo.style.filter = `
+          brightness(1.3)
           drop-shadow(0 0 10px ${color})
           drop-shadow(0 0 20px ${color})
           drop-shadow(0 0 30px ${color})
-          hue-rotate(${hue}deg)
-          brightness(1.2)
         `;
       }
     }
 
-    // 🔥 Cor inicial (roxo neon)
-    setFogoColor('#A64FF0', 270);
+    // 🔥 COR INICIAL
+    setFogoColor('#A64FF0'); // roxo neon
+
+    // Exemplos (opcional)
+    // setFogoColor('#FF3300'); // vermelho
+    // setFogoColor('#00FFFF'); // azul
+    // setFogoColor('#00FF7F'); // verde
   </script>
 
 </body>
