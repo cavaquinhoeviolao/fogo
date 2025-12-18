@@ -18,48 +18,61 @@
       width: 50px;
       height: 50px;
       transform: none;
-      
-      /* efeito de brilho inicial */
-      filter: drop-shadow(0 0 10px #A64FF0)
-              drop-shadow(0 0 20px #A64FF0)
-              drop-shadow(0 0 30px #A64FF0)
-              hue-rotate(270deg)
-              brightness(1.2);
+      will-change: filter;
     }
   </style>
 </head>
 <body>
+
   <div id="fogo"></div>
 
-  <!-- Biblioteca Lottie -->
+  <!-- Lottie -->
   <script src="https://unpkg.com/lottie-web@5.10.0/build/player/lottie.min.js"></script>
+
   <script>
-    // Carrega a animação
+    // Detecta iOS / Safari
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
     const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'fire.json' // seu arquivo JSON
+      path: 'fire.json'
     });
 
-    // Função para mudar a cor do fogo
-    function setFogoColor(color, hue=0) {
+    function setFogoColor(color, hue = 0) {
       const fogo = document.getElementById('fogo');
-      fogo.style.filter = `
-        drop-shadow(0 0 10px ${color})
-        drop-shadow(0 0 20px ${color})
-        drop-shadow(0 0 30px ${color})
-        hue-rotate(${hue}deg)
-        brightness(1.2)
-      `;
+
+      if (isIOS) {
+        // 🔹 Brilho compatível com Safari/iOS
+        fogo.style.filter = `
+          brightness(1.4)
+          hue-rotate(${hue}deg)
+        `;
+        fogo.style.boxShadow = `
+          0 0 15px ${color},
+          0 0 30px ${color}
+        `;
+        fogo.style.mixBlendMode = 'screen';
+
+      } else {
+        // 🔹 Brilho completo (Chrome, Firefox, Edge)
+        fogo.style.boxShadow = 'none';
+        fogo.style.mixBlendMode = 'normal';
+        fogo.style.filter = `
+          drop-shadow(0 0 10px ${color})
+          drop-shadow(0 0 20px ${color})
+          drop-shadow(0 0 30px ${color})
+          hue-rotate(${hue}deg)
+          brightness(1.2)
+        `;
+      }
     }
 
-    // Exemplo: muda a cor do fogo para roxo neon
+    // 🔥 Cor inicial (roxo neon)
     setFogoColor('#A64FF0', 270);
-
-    // Exemplo adicional: você pode trocar a cor a qualquer momento
-    // setTimeout(() => setFogoColor('#FF0000', 0), 3000); // vermelho depois de 3s
   </script>
+
 </body>
 </html>
