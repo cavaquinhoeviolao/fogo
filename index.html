@@ -29,6 +29,9 @@
   <script src="https://unpkg.com/lottie-web@5.10.0/build/player/lottie.min.js"></script>
 
   <script>
+    // =============================
+    // CARREGA A ANIMAÇÃO (ORIGINAL)
+    // =============================
     const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
       renderer: 'svg',
@@ -37,15 +40,14 @@
       path: 'fire.json'
     });
 
-    /**
-     * MUDA A COR REAL DO FOGO
-     * @param {string} color - cor em HEX (ex: #FFD700)
-     */
+    // =============================
+    // FUNÇÃO PARA MUDAR A COR
+    // (NÃO ESTÁ SENDO USADA AGORA)
+    // =============================
     function setFogoColor(color) {
       const svg = document.querySelector('#fogo svg');
       if (!svg) return;
 
-      // seleciona todos os paths do SVG
       const paths = svg.querySelectorAll('path');
 
       paths.forEach(path => {
@@ -54,15 +56,9 @@
       });
     }
 
-    // Espera o SVG existir antes de aplicar
-    anim.addEventListener('DOMLoaded', () => {
-      setFogoColor('#FFD700'); // 🔥 dourado REAL
-    });
-
-    // Exemplos:
-    // setFogoColor('#FF0000'); // vermelho
-    // setFogoColor('#00FFFF'); // azul
-    // setFogoColor('#00FF7F'); // verde
+    // ⚠️ IMPORTANTE:
+    // NÃO chamamos setFogoColor aqui.
+    // O fogo permanece 100% original.
   </script>
 
 </body>
