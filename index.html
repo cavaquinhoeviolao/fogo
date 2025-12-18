@@ -29,6 +29,7 @@
   <script src="https://unpkg.com/lottie-web@5.10.0/build/player/lottie.min.js"></script>
 
   <script>
+    // Carrega a animação
     const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
       renderer: 'svg',
@@ -38,33 +39,37 @@
     });
 
     /**
-     * MUDA A COR REAL DO FOGO
-     * @param {string} color - cor em HEX (ex: #FFD700)
+     * Muda a cor REAL do fogo
+     * mantendo profundidade (núcleo claro / borda escura)
+     * @param {string} baseColor - HEX (ex: #FFD700)
      */
-    function setFogoColor(color) {
+    function setFogoColor(baseColor) {
       const svg = document.querySelector('#fogo svg');
       if (!svg) return;
 
-      // seleciona todos os paths do SVG
       const paths = svg.querySelectorAll('path');
 
-      paths.forEach(path => {
-        path.style.fill = color;
+      paths.forEach((path, index) => {
+        // alterna brilho para simular profundidade da chama
+        const intensity = index % 2 === 0 ? 1.15 : 0.75;
+
+        path.style.fill = baseColor;
+        path.style.filter = `brightness(${intensity})`;
         path.style.stroke = 'none';
       });
     }
 
-    // Espera o SVG existir antes de aplicar
+    // Aplica a cor somente depois do SVG estar pronto
     anim.addEventListener('DOMLoaded', () => {
-      setFogoColor('#FFD700'); // 🔥 dourado REAL
+      setFogoColor('#FFD700'); // 🔥 dourado
     });
 
-    // Exemplos:
-    // setFogoColor('#FF0000'); // vermelho
+    // Exemplos (troque quando quiser):
+    // setFogoColor('#FF4500'); // vermelho
     // setFogoColor('#00FFFF'); // azul
     // setFogoColor('#00FF7F'); // verde
+    // setFogoColor('#A64FF0'); // roxo
   </script>
 
 </body>
 </html>
-
