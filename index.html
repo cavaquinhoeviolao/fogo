@@ -18,8 +18,6 @@
       left: 0;
       width: 50px;
       height: 50px;
-      transform: none;
-      will-change: filter, box-shadow;
     }
   </style>
 </head>
@@ -31,10 +29,6 @@
   <script src="https://unpkg.com/lottie-web@5.10.0/build/player/lottie.min.js"></script>
 
   <script>
-    // Detecta iOS (Safari)
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-    // Carrega a animação
     const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
       renderer: 'svg',
@@ -43,41 +37,34 @@
       path: 'fire.json'
     });
 
-    // Função DEFINITIVA para cor do fogo (igual em todos os browsers)
+    /**
+     * MUDA A COR REAL DO FOGO
+     * @param {string} color - cor em HEX (ex: #FFD700)
+     */
     function setFogoColor(color) {
-      const fogo = document.getElementById('fogo');
+      const svg = document.querySelector('#fogo svg');
+      if (!svg) return;
 
-      if (isIOS) {
-        // Safari / iOS
-        fogo.style.filter = 'brightness(1.4)';
-        fogo.style.boxShadow = `
-          0 0 12px ${color},
-          0 0 24px ${color},
-          0 0 36px ${color}
-        `;
-        fogo.style.mixBlendMode = 'screen';
+      // seleciona todos os paths do SVG
+      const paths = svg.querySelectorAll('path');
 
-      } else {
-        // Chrome, Firefox, Edge
-        fogo.style.boxShadow = 'none';
-        fogo.style.mixBlendMode = 'normal';
-        fogo.style.filter = `
-          brightness(1.3)
-          drop-shadow(0 0 10px ${color})
-          drop-shadow(0 0 20px ${color})
-          drop-shadow(0 0 30px ${color})
-        `;
-      }
+      paths.forEach(path => {
+        path.style.fill = color;
+        path.style.stroke = 'none';
+      });
     }
 
-    // 🔥 COR INICIAL
-    setFogoColor('#FFD700'); // dourado
+    // Espera o SVG existir antes de aplicar
+    anim.addEventListener('DOMLoaded', () => {
+      setFogoColor('#FFD700'); // 🔥 dourado REAL
+    });
 
-    // Exemplos (opcional)
-    // setFogoColor('#FF3300'); // vermelho
+    // Exemplos:
+    // setFogoColor('#FF0000'); // vermelho
     // setFogoColor('#00FFFF'); // azul
     // setFogoColor('#00FF7F'); // verde
   </script>
 
 </body>
 </html>
+
