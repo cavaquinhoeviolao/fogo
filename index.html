@@ -29,9 +29,6 @@
   <script src="https://unpkg.com/lottie-web@5.10.0/build/player/lottie.min.js"></script>
 
   <script>
-    // =============================
-    // CARREGA A ANIMAÇÃO
-    // =============================
     const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
       renderer: 'svg',
@@ -40,80 +37,33 @@
       path: 'fire.json'
     });
 
-    // =============================
-    // FUNÇÕES DE COR
-    // =============================
-
-    function rgbToHsl(r, g, b) {
-      r /= 255; g /= 255; b /= 255;
-      const max = Math.max(r, g, b);
-      const min = Math.min(r, g, b);
-      let h, s, l = (max + min) / 2;
-
-      if (max === min) {
-        h = s = 0;
-      } else {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-      }
-      return [h * 360, s * 100, l * 100];
-    }
-
-    function hexToHue(hex) {
-      const r = parseInt(hex.substr(1, 2), 16);
-      const g = parseInt(hex.substr(3, 2), 16);
-      const b = parseInt(hex.substr(5, 2), 16);
-      return rgbToHsl(r, g, b)[0];
-    }
-
-    // =============================
-    // MUDA A COR REAL DO FOGO
-    // preservando luz/sombra
-    // =============================
-    function setFogoColor(hexColor) {
+    /**
+     * MUDA A COR REAL DO FOGO
+     * @param {string} color - cor em HEX (ex: #FFD700)
+     */
+    function setFogoColor(color) {
       const svg = document.querySelector('#fogo svg');
       if (!svg) return;
 
-      const targetHue = hexToHue(hexColor);
+      // seleciona todos os paths do SVG
       const paths = svg.querySelectorAll('path');
 
       paths.forEach(path => {
-        const fill = getComputedStyle(path).fill;
-        if (!fill || !fill.startsWith('rgb')) return;
-
-        const rgb = fill.match(/\d+/g).map(Number);
-        const [, s, l] = rgbToHsl(rgb[0], rgb[1], rgb[2]);
-
-        path.style.fill = `hsl(${targetHue}, ${s}%, ${l}%)`;
+        path.style.fill = color;
         path.style.stroke = 'none';
       });
     }
 
-    // =============================
-    // APLICA COR APÓS RENDER COMPLETO
-    // (necessário para Safari/iOS)
-    // =============================
+    // Espera o SVG existir antes de aplicar
     anim.addEventListener('DOMLoaded', () => {
-      setTimeout(() => {
-        setFogoColor('#FFD700'); // 🔥 COR INICIAL (dourado)
-      }, 0);
+      setFogoColor('#FFD700'); // 🔥 dourado REAL
     });
 
-    // =============================
-    // EXEMPLOS (opcional)
-    // =============================
-    // setFogoColor('#FF4500'); // vermelho
+    // Exemplos:
+    // setFogoColor('#FF0000'); // vermelho
     // setFogoColor('#00FFFF'); // azul
     // setFogoColor('#00FF7F'); // verde
-    // setFogoColor('#A64FF0'); // roxo
   </script>
 
 </body>
 </html>
-
