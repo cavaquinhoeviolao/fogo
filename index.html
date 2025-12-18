@@ -29,6 +29,9 @@
   <script src="https://unpkg.com/lottie-web@5.10.0/build/player/lottie.min.js"></script>
 
   <script>
+    // =============================
+    // CARREGA A ANIMAÇÃO
+    // =============================
     const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
       renderer: 'svg',
@@ -38,7 +41,7 @@
     });
 
     // =============================
-    // UTILIDADES DE COR
+    // FUNÇÕES DE COR
     // =============================
 
     function rgbToHsl(r, g, b) {
@@ -70,9 +73,9 @@
     }
 
     // =============================
-    // FUNÇÃO PRINCIPAL
+    // MUDA A COR REAL DO FOGO
+    // preservando luz/sombra
     // =============================
-
     function setFogoColor(hexColor) {
       const svg = document.querySelector('#fogo svg');
       if (!svg) return;
@@ -84,23 +87,33 @@
         const fill = getComputedStyle(path).fill;
         if (!fill || !fill.startsWith('rgb')) return;
 
-        const nums = fill.match(/\d+/g).map(Number);
-        const [, s, l] = rgbToHsl(nums[0], nums[1], nums[2]);
+        const rgb = fill.match(/\d+/g).map(Number);
+        const [, s, l] = rgbToHsl(rgb[0], rgb[1], rgb[2]);
 
         path.style.fill = `hsl(${targetHue}, ${s}%, ${l}%)`;
+        path.style.stroke = 'none';
       });
     }
 
-    // Aplica após o SVG carregar
+    // =============================
+    // APLICA COR APÓS RENDER COMPLETO
+    // (necessário para Safari/iOS)
+    // =============================
     anim.addEventListener('DOMLoaded', () => {
-      setFogoColor('#FFD700'); // 🔥 dourado NATURAL
+      setTimeout(() => {
+        setFogoColor('#FFD700'); // 🔥 COR INICIAL (dourado)
+      }, 0);
     });
 
-    // Exemplos:
+    // =============================
+    // EXEMPLOS (opcional)
+    // =============================
     // setFogoColor('#FF4500'); // vermelho
     // setFogoColor('#00FFFF'); // azul
+    // setFogoColor('#00FF7F'); // verde
     // setFogoColor('#A64FF0'); // roxo
   </script>
 
 </body>
 </html>
+
