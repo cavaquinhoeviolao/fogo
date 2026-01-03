@@ -26,12 +26,24 @@
   <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
 
   <script>
-    lottie.loadAnimation({
+    const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
-      renderer: 'canvas',   // ⚠️ ESSENCIAL para seu JSON
+      renderer: 'canvas',
       loop: true,
       autoplay: true,
       path: 'fire.json'
+    });
+
+    // 🎨 TINTURA AZUL CLARO
+    anim.addEventListener('enterFrame', () => {
+      const canvas = document.querySelector('#fogo canvas');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      ctx.globalCompositeOperation = 'source-atop';
+      ctx.fillStyle = 'rgba(120, 200, 255, 0.6)'; // azul claro
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'source-over';
     });
   </script>
 
