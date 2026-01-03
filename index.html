@@ -25,7 +25,7 @@
 
   <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
 
-  <script>
+ <script>
   const anim = lottie.loadAnimation({
     container: document.getElementById('fogo'),
     renderer: 'canvas',
@@ -34,18 +34,21 @@
     path: 'fire.json'
   });
 
-  anim.addEventListener('DOMLoaded', () => {
-    // Azul claro
-    anim.renderer.elements.forEach(el => {
-      if (el.style && el.style.fill) {
-        el.style.fill = '#7EC8FF';
-      }
-    });
+  anim.addEventListener('enterFrame', () => {
+    const canvas = document.querySelector('#fogo canvas');
+    if (!canvas) return;
 
-    // Color filter global (funciona em todos os browsers)
-    anim.renderer.ctx.globalCompositeOperation = 'source-atop';
+    const ctx = canvas.getContext('2d');
+
+    // pinta mantendo luminância (não destrói a chama)
+    ctx.save();
+    ctx.globalCompositeOperation = 'color';
+    ctx.fillStyle = 'rgba(140, 200, 255, 0.85)'; // 🔵 azul claro
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
   });
 </script>
+
 
 </body>
 </html>
