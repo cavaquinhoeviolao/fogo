@@ -26,26 +26,26 @@
   <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
 
   <script>
-    const anim = lottie.loadAnimation({
-      container: document.getElementById('fogo'),
-      renderer: 'canvas',
-      loop: true,
-      autoplay: true,
-      path: 'fire.json'
+  const anim = lottie.loadAnimation({
+    container: document.getElementById('fogo'),
+    renderer: 'canvas',
+    loop: true,
+    autoplay: true,
+    path: 'fire.json'
+  });
+
+  anim.addEventListener('DOMLoaded', () => {
+    // Azul claro
+    anim.renderer.elements.forEach(el => {
+      if (el.style && el.style.fill) {
+        el.style.fill = '#7EC8FF';
+      }
     });
 
-    // 🎨 TINTURA AZUL CLARO
-    anim.addEventListener('enterFrame', () => {
-      const canvas = document.querySelector('#fogo canvas');
-      if (!canvas) return;
-
-      const ctx = canvas.getContext('2d');
-      ctx.globalCompositeOperation = 'source-atop';
-      ctx.fillStyle = 'rgba(120, 200, 255, 0.6)'; // azul claro
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = 'source-over';
-    });
-  </script>
+    // Color filter global (funciona em todos os browsers)
+    anim.renderer.ctx.globalCompositeOperation = 'source-atop';
+  });
+</script>
 
 </body>
 </html>
