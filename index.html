@@ -14,10 +14,11 @@
 
     #fogo {
       position: absolute;
-      top: -5px;
+      top: -10px;
       left: 0;
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -30,7 +31,7 @@
 
   <script>
     // =============================
-    // CARREGA A ANIMAÇÃO (ORIGINAL)
+    // CARREGA A ANIMAÇÃO ORIGINAL
     // =============================
     const anim = lottie.loadAnimation({
       container: document.getElementById('fogo'),
@@ -42,7 +43,7 @@
 
     // =============================
     // FUNÇÃO PARA MUDAR A COR
-    // (NÃO ESTÁ SENDO USADA AGORA)
+    // (guardada para uso futuro)
     // =============================
     function setFogoColor(color) {
       const svg = document.querySelector('#fogo svg');
@@ -56,9 +57,8 @@
       });
     }
 
-    // ⚠️ IMPORTANTE:
-    // NÃO chamamos setFogoColor aqui.
-    // O fogo permanece 100% original.
+    // ⚠️ NÃO chamamos setFogoColor aqui.
+    // O fogo permanece no desenho original.
   </script>
 
 </body>
