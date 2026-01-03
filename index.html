@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Fogo Lottie</title>
+  <title>Fogo Azul</title>
   <style>
     body {
       margin: 0;
@@ -17,6 +17,14 @@
       top: 10px;
       left: 10px;
     }
+
+    /* 🔵 MUDANÇA DE COR AQUI */
+    #fogo canvas {
+      filter:
+        hue-rotate(200deg)   /* 🔥 → 🔵 */
+        saturate(1.4)
+        brightness(1.1);
+    }
   </style>
 </head>
 <body>
@@ -25,30 +33,16 @@
 
   <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
 
- <script>
-  const anim = lottie.loadAnimation({
-    container: document.getElementById('fogo'),
-    renderer: 'canvas',
-    loop: true,
-    autoplay: true,
-    path: 'fire.json'
-  });
-
-  anim.addEventListener('enterFrame', () => {
-    const canvas = document.querySelector('#fogo canvas');
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-
-    // pinta mantendo luminância (não destrói a chama)
-    ctx.save();
-    ctx.globalCompositeOperation = 'color';
-    ctx.fillStyle = 'rgba(140, 200, 255, 0.85)'; // 🔵 azul claro
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.restore();
-  });
-</script>
-
+  <script>
+    lottie.loadAnimation({
+      container: document.getElementById('fogo'),
+      renderer: 'canvas',
+      loop: true,
+      autoplay: true,
+      path: 'fire.json'
+    });
+  </script>
 
 </body>
 </html>
+
